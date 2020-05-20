@@ -3,6 +3,7 @@ package br.com.dojos.dojomock.services;
 import br.com.dojos.dojomock.dto.account.AccountDTO;
 import br.com.dojos.dojomock.dto.account.CreateAccountDTO;
 import br.com.dojos.dojomock.entity.Account;
+import br.com.dojos.dojomock.repository.AccountRepository;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,24 +12,23 @@ import java.util.Set;
  */
 public class AccountService {
 
-    Set<String> documentsNumbersCadastrados;
+    private AccountRepository accountRepository;
 
-    public AccountService(){
-        documentsNumbersCadastrados = new HashSet<>();
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
     }
 
     public AccountDTO createAccount(CreateAccountDTO createAccountDTO) {
-        String documentNumber = createAccountDTO.getDocumentNumber();
-        validaDocumentNumberExistente(documentNumber);
+//        String documentNumber = createAccountDTO.getDocumentNumber();
+//        validaDocumentNumberExistente(documentNumber);
         Account account = createAccountDTO.createAccount();
-        account.setId(1L);
-        documentsNumbersCadastrados.add(documentNumber);
+        accountRepository.save(account);
         return new AccountDTO(account);
     }
 
-    public void validaDocumentNumberExistente(String documentNumber) {
-        if(documentsNumbersCadastrados.contains(documentNumber)){
-            throw new RuntimeException("Document Number already exist.");
-        }
-    }
+//    public void validaDocumentNumberExistente(String documentNumber) {
+//        if(documentsNumbersCadastrados.contains(documentNumber)){
+//            throw new RuntimeException("Document Number already exist.");
+//        }
+//    }
 }

@@ -1,5 +1,6 @@
 package br.com.dojos.dojomock.entity;
 
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,5 +29,22 @@ class Account {
   public Account(Long id, String documentNumber) {
     this.id = id;
     this.documentNumber = documentNumber;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Account account = (Account) o;
+    return Objects.equals(getDocumentNumber(), account.getDocumentNumber());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getDocumentNumber());
   }
 }
