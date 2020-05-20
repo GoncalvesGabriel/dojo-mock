@@ -5,6 +5,7 @@ import br.com.dojos.dojomock.dto.account.CreateAccountDTO;
 import br.com.dojos.dojomock.entity.Account;
 import br.com.dojos.dojomock.repository.AccountRepository;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -19,16 +20,17 @@ public class AccountService {
     }
 
     public AccountDTO createAccount(CreateAccountDTO createAccountDTO) {
-//        String documentNumber = createAccountDTO.getDocumentNumber();
-//        validaDocumentNumberExistente(documentNumber);
+        validaDocumentNumberExistente(createAccountDTO);
         Account account = createAccountDTO.createAccount();
         accountRepository.save(account);
         return new AccountDTO(account);
     }
 
-//    public void validaDocumentNumberExistente(String documentNumber) {
-//        if(documentsNumbersCadastrados.contains(documentNumber)){
-//            throw new RuntimeException("Document Number already exist.");
-//        }
-//    }
+    public void validaDocumentNumberExistente(CreateAccountDTO createAccountDTO) {
+        Optional<Account> account = accountRepository.findByDocumentNumber(createAccountDTO.getDocumentNumber());
+
+        if(account.isPresent()){
+            throw new RuntimeException("Document Number already exist.");
+        }
+    }
 }
