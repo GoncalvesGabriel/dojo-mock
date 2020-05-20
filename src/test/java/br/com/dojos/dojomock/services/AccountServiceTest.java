@@ -22,5 +22,18 @@ public class AccountServiceTest {
         assertThat(accountLeirbag.getId(), equalTo(1L));
     }
 
+    @Test(expected = RuntimeException.class)
+    public void naoPermiteDuasContasMesmoDocumento(){
+        CreateAccountDTO createAccountDTO = new CreateAccountDTO();
+        createAccountDTO.setDocumentNumber("12345");
+
+        AccountService service = new AccountService();
+
+        service.createAccount(createAccountDTO);
+        service.createAccount(createAccountDTO);
+
+
+    }
+
 
 }
