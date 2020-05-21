@@ -13,26 +13,24 @@ import br.com.dojos.dojomock.dto.account.CreateAccountDTO;
 import br.com.dojos.dojomock.entity.Account;
 import br.com.dojos.dojomock.repository.AccountRepository;
 import br.com.dojos.dojomock.services.Validator;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
-
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class AccountServiceTest {
 
+    @InjectMocks
     private AccountService service;
 
+    @Mock
     private AccountRepository accountRepository;
 
+    @Mock
     private Validator<CreateAccountDTO> accountValidator;
-
-    @Before
-    public void setUp() {
-        accountRepository = Mockito.mock(AccountRepository.class);
-        accountValidator = Mockito.mock(PreAccountValidator.class);
-        service = new AccountService(accountRepository, accountValidator);
-    }
 
     @Test
     public void createAccountSucess() {

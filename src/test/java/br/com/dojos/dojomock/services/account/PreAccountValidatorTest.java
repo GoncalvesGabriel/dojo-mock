@@ -10,12 +10,19 @@ import br.com.dojos.dojomock.repository.AccountRepository;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class PreAccountValidatorTest {
 
+    @Mock
     private AccountRepository accountRepository;
 
+    @InjectMocks
     private PreAccountValidator validator;
 
     @Before

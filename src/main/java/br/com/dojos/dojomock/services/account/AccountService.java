@@ -19,6 +19,7 @@ public class AccountService {
 
     private Validator<CreateAccountDTO> accountValidator;
 
+    @Autowired
     public AccountService(AccountRepository accountRepository,
         Validator<CreateAccountDTO> accountValidator) {
         this.accountRepository = accountRepository;

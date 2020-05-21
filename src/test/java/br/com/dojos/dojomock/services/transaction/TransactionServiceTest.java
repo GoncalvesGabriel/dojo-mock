@@ -19,31 +19,32 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 /**
  * @author vitor.alves
  */
+@RunWith(MockitoJUnitRunner.class)
 public class TransactionServiceTest {
 
+    @InjectMocks
     private TransactionService service;
 
+    @Mock
     private TransactionRepository transactionRepository;
 
+    @Mock
     private AccountService accountService;
 
+    @Mock
     private Clock clockMock;
-
-    @Before
-    public void setUp() {
-        transactionRepository = Mockito.mock(TransactionRepository.class);
-        accountService = Mockito.mock(AccountService.class);
-        clockMock = Mockito.mock(Clock.class);
-        service = new TransactionService(transactionRepository, accountService,clockMock);
-    }
 
     @Test
     public void createTransacaoSucesso() {
+        when(clockMock.devolveHoje()).thenReturn(LocalDateTime.now());
         when(accountService.findById(1L)).thenReturn(new Account(1L, null));
         CreateTransactionDTO createTransactionDTO = new CreateTransactionDTO(1L, 1, 5.0);
         TransactionDTO transactionDTO = service.createTransaction(createTransactionDTO);
@@ -57,7 +58,7 @@ public class TransactionServiceTest {
     @Test
     public void createTransacaoDiaNaoUtil() {
         when(accountService.findById(1L)).thenReturn(new Account(1L, null));
-        when(clockMock.devolveHoje()).thenReturn(LocalDateTime.of(2020,5,23,10,30));
+        when(clockMock.devolveHoje()).thenReturn(LocalDateTime.of(2020, 5, 23, 10, 30));
         CreateTransactionDTO createTransactionDTO = new CreateTransactionDTO(1L, 1, 5.0);
         TransactionDTO transactionDTO = service.createTransaction(createTransactionDTO);
 

@@ -8,6 +8,7 @@ import br.com.dojos.dojomock.services.account.AccountService;
 import br.com.dojos.dojomock.utils.Clock;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,6 +23,7 @@ public class TransactionService {
 
     private Clock clock;
 
+    @Autowired
     public TransactionService(TransactionRepository transactionRepository, AccountService accountService, Clock clock) {
         this.transactionRepository = transactionRepository;
         this.accountService = accountService;
