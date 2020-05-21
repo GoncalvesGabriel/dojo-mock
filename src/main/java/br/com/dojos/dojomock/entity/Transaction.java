@@ -45,8 +45,12 @@ class Transaction {
   @Convert( converter = LocalDateTimeConverter.class)
   private LocalDateTime eventDate;
 
-  public Transaction(Account account, OperationType operationType, double amount, LocalDateTime eventDate) {
-    this(null, account, operationType, amount, eventDate);
+  @Column(name = "EfectiveDate")
+  @Convert( converter = LocalDateTimeConverter.class)
+  private LocalDateTime efectiveDate;
+
+  public Transaction(Account account, OperationType operationType, double amount, LocalDateTime eventDate, LocalDateTime efectiveDate) {
+    this(null, account, operationType, amount, eventDate, efectiveDate);
   }
 
   @Transient
@@ -55,11 +59,12 @@ class Transaction {
   }
 
   @Builder
-  public Transaction(Long id, Account account, OperationType operationType, double amount, LocalDateTime eventDate) {
+  public Transaction(Long id, Account account, OperationType operationType, double amount, LocalDateTime eventDate, LocalDateTime efectiveDate) {
     this.id = id;
     this.account = account;
     this.operationType = operationType;
     this.amount = amount;
     this.eventDate = eventDate;
+    this.efectiveDate = efectiveDate;
   }
 }

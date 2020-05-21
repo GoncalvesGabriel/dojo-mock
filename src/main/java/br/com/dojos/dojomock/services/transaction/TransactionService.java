@@ -2,7 +2,6 @@ package br.com.dojos.dojomock.services.transaction;
 
 import br.com.dojos.dojomock.dto.transaction.CreateTransactionDTO;
 import br.com.dojos.dojomock.dto.transaction.TransactionDTO;
-import br.com.dojos.dojomock.entity.Account;
 import br.com.dojos.dojomock.entity.Transaction;
 import br.com.dojos.dojomock.repository.TransactionRepository;
 import br.com.dojos.dojomock.services.account.AccountService;
@@ -23,7 +22,14 @@ public class TransactionService {
     }
 
     public TransactionDTO createTransaction(CreateTransactionDTO createTransactionDTO) {
-        Transaction transaction = new Transaction(accountService.findById(createTransactionDTO.getAccountId()), createTransactionDTO.getOperationTypeEnum(), createTransactionDTO.getAmount(), LocalDateTime.now());
+        Transaction transaction = new Transaction(accountService.findById(createTransactionDTO.getAccountId()),
+            createTransactionDTO.getOperationTypeEnum(), createTransactionDTO.getAmount(), LocalDateTime.now(), devolveDiaEfetivo());
+        transactionRepository.save(transaction);
         return new TransactionDTO(transaction);
+    }
+
+    private LocalDateTime devolveDiaEfetivo() {
+        LocalDateTime hoje = LocalDateTime.now();
+        if(hoje.getDayOfWeek() )
     }
 }

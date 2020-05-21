@@ -32,7 +32,6 @@ public class PreAccountValidatorTest {
             .thenReturn(Optional.empty());
         validator.validar(createAccountDTO);
         verify(accountRepository,times(1)).findByDocumentNumber("1307");
-
     }
 
     @Test(expected = RuntimeException.class)
