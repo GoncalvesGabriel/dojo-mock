@@ -1,13 +1,14 @@
 package br.com.dojos.dojomock.services.transaction;
 
-import br.com.dojos.dojomock.dto.account.CreateAccountDTO;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+
 import br.com.dojos.dojomock.dto.transaction.CreateTransactionDTO;
-import br.com.dojos.dojomock.repository.AccountRepository;
+import br.com.dojos.dojomock.dto.transaction.TransactionDTO;
+import br.com.dojos.dojomock.entity.enux.OperationType;
 import br.com.dojos.dojomock.repository.TransactionRepository;
-import br.com.dojos.dojomock.services.Validator;
-import br.com.dojos.dojomock.services.account.AccountService;
-import br.com.dojos.dojomock.services.account.PreAccountValidator;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
@@ -17,11 +18,23 @@ public class TransactionServiceTest {
 
     private TransactionService service;
 
-    private TransactionRepository accountRepository;
+    private TransactionRepository transactionRepository;
 
     @Before
     public void setUp() {
-        accountRepository = Mockito.mock(TransactionRepository.class);
-        service = new TransactionService(accountRepository, accountValidator);
+        transactionRepository = Mockito.mock(TransactionRepository.class);
+        service = new TransactionService(transactionRepository);
+
+
+    }
+
+    @Test
+    public void createTransacaoSucesso(){
+        CreateTransactionDTO createTransactionDTO = new CreateTransactionDTO(1L,1,5.0);
+        TransactionDTO transactionDTO = service.createTransaction(createTransactionDTO);
+
+        assertThat(transactionDTO.getAccountId(),equalTo(1L));
+        assertThat(transactionDTO.getAmount(),equalTo(5.0));
+        assertThat(transactionDTO.getOperationType(),equalTo(OperationType.COMPRA_A_VISTA));
     }
 }
