@@ -28,10 +28,10 @@ public class PreAccountValidator implements Validator<CreateAccountDTO> {
     }
 
     public void validaDocumentNumberExistente(CreateAccountDTO createAccountDTO) {
-        Optional<Account> account = accountRepository.findByDocumentNumber(createAccountDTO.getDocumentNumber());
-
+        String documentNumber = createAccountDTO.getDocumentNumber();
+        Optional<Account> account = accountRepository.findByDocumentNumber(documentNumber);
         if(account.isPresent()){
-            throw new RuntimeException("Document Number already exist.");
+            throw new RuntimeException(String.format("Document Number %s already exist.",documentNumber));
         }
     }
 }

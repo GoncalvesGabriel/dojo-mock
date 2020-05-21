@@ -20,7 +20,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.Silent.class)
+@RunWith(MockitoJUnitRunner.class)
 public class AccountServiceTest {
 
     @InjectMocks
@@ -47,10 +47,11 @@ public class AccountServiceTest {
         assertThat(accountLeirbag.getDocumentNumber(), equalTo("12345"));
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void seDerErroDeValidacaoNaoSalvarEntidade() {
         CreateAccountDTO createAccountDTO = new CreateAccountDTO();
         doThrow(RuntimeException.class).when(accountValidator).validar(createAccountDTO);
+        service.createAccount(createAccountDTO);
         verify(accountRepository, never()).save(any(Account.class));
     }
 
@@ -64,5 +65,4 @@ public class AccountServiceTest {
 
         verify(accountRepository, times(1)).save(account);
     }
-
 }
