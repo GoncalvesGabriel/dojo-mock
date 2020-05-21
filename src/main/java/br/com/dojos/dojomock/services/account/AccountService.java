@@ -6,10 +6,13 @@ import br.com.dojos.dojomock.entity.Account;
 import br.com.dojos.dojomock.repository.AccountRepository;
 import br.com.dojos.dojomock.services.Validator;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author vitor.alves
  */
+@Service
 public class AccountService {
 
     private AccountRepository accountRepository;

@@ -14,7 +14,9 @@ import br.com.dojos.dojomock.entity.Transaction;
 import br.com.dojos.dojomock.entity.enux.OperationType;
 import br.com.dojos.dojomock.repository.TransactionRepository;
 import br.com.dojos.dojomock.services.account.AccountService;
+import br.com.dojos.dojomock.utils.Clock;
 import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -30,11 +32,14 @@ public class TransactionServiceTest {
 
     private AccountService accountService;
 
+    private Clock clockMock;
+
     @Before
     public void setUp() {
         transactionRepository = Mockito.mock(TransactionRepository.class);
         accountService = Mockito.mock(AccountService.class);
-        service = new TransactionService(transactionRepository, accountService);
+        clockMock = Mockito.mock(Clock.class);
+        service = new TransactionService(transactionRepository, accountService,clockMock);
     }
 
     @Test
@@ -52,6 +57,7 @@ public class TransactionServiceTest {
     @Test
     public void createTransacaoDiaNaoUtil() {
         when(accountService.findById(1L)).thenReturn(new Account(1L, null));
+        when(clockMock.devolveHoje()).thenReturn(LocalDateTime.of(2020,5,23,10,30));
         CreateTransactionDTO createTransactionDTO = new CreateTransactionDTO(1L, 1, 5.0);
         TransactionDTO transactionDTO = service.createTransaction(createTransactionDTO);
 
