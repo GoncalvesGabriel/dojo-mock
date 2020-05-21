@@ -14,9 +14,9 @@ import br.com.dojos.dojomock.entity.Transaction;
 import br.com.dojos.dojomock.entity.enux.OperationType;
 import br.com.dojos.dojomock.repository.TransactionRepository;
 import br.com.dojos.dojomock.services.account.AccountService;
+import java.time.DayOfWeek;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 /**
@@ -38,28 +38,28 @@ public class TransactionServiceTest {
     }
 
     @Test
-    public void createTransacaoSucesso(){
+    public void createTransacaoSucesso() {
         when(accountService.findById(1L)).thenReturn(new Account(1L, null));
-        CreateTransactionDTO createTransactionDTO = new CreateTransactionDTO(1L,1,5.0);
+        CreateTransactionDTO createTransactionDTO = new CreateTransactionDTO(1L, 1, 5.0);
         TransactionDTO transactionDTO = service.createTransaction(createTransactionDTO);
 
-        verify(transactionRepository,times(1)).save(any(Transaction.class));
-        assertThat(transactionDTO.getAccountId(),equalTo(1L));
-        assertThat(transactionDTO.getAmount(),equalTo(5.0));
-        assertThat(transactionDTO.getOperationType(),equalTo(OperationType.COMPRA_A_VISTA));
+        verify(transactionRepository, times(1)).save(any(Transaction.class));
+        assertThat(transactionDTO.getAccountId(), equalTo(1L));
+        assertThat(transactionDTO.getAmount(), equalTo(5.0));
+        assertThat(transactionDTO.getOperationType(), equalTo(OperationType.COMPRA_A_VISTA));
     }
 
     @Test
-    public void createTransacaoDiaNaoUtil(){
+    public void createTransacaoDiaNaoUtil() {
         when(accountService.findById(1L)).thenReturn(new Account(1L, null));
-        CreateTransactionDTO createTransactionDTO = new CreateTransactionDTO(1L,1,5.0);
+        CreateTransactionDTO createTransactionDTO = new CreateTransactionDTO(1L, 1, 5.0);
         TransactionDTO transactionDTO = service.createTransaction(createTransactionDTO);
 
-        verify(transactionRepository,times(1)).save(any(Transaction.class));
-        assertThat(transactionDTO.getAccountId(),equalTo(1L));
-        assertThat(transactionDTO.getAmount(),equalTo(5.0));
-        assertThat(transactionDTO.getOperationType(),equalTo(OperationType.COMPRA_A_VISTA));
-
+        verify(transactionRepository, times(1)).save(any(Transaction.class));
+        assertThat(transactionDTO.getAccountId(), equalTo(1L));
+        assertThat(transactionDTO.getAmount(), equalTo(5.0));
+        assertThat(transactionDTO.getOperationType(), equalTo(OperationType.COMPRA_A_VISTA));
+        assertThat(transactionDTO.getEfectiveDate().getDayOfWeek(), equalTo(DayOfWeek.MONDAY));
     }
 
 

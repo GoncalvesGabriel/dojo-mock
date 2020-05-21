@@ -5,6 +5,7 @@ import br.com.dojos.dojomock.dto.transaction.TransactionDTO;
 import br.com.dojos.dojomock.entity.Transaction;
 import br.com.dojos.dojomock.repository.TransactionRepository;
 import br.com.dojos.dojomock.services.account.AccountService;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
 /**
@@ -30,6 +31,12 @@ public class TransactionService {
 
     private LocalDateTime devolveDiaEfetivo() {
         LocalDateTime hoje = LocalDateTime.now();
-        if(hoje.getDayOfWeek() )
+        if (hoje.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
+            return hoje.plusDays(2);
+        }
+        if (hoje.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            return hoje.plusDays(1);
+        }
+        return hoje;
     }
 }
