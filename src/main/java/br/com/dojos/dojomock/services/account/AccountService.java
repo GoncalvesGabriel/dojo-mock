@@ -5,6 +5,7 @@ import br.com.dojos.dojomock.dto.account.CreateAccountDTO;
 import br.com.dojos.dojomock.entity.Account;
 import br.com.dojos.dojomock.repository.AccountRepository;
 import br.com.dojos.dojomock.services.Validator;
+import java.util.Optional;
 
 /**
  * @author vitor.alves
@@ -26,5 +27,14 @@ public class AccountService {
         Account account = createAccountDTO.createAccount();
         accountRepository.save(account);
         return new AccountDTO(account);
+    }
+
+    public Account findById(Long id) {
+        Optional<Account> account = accountRepository.findById(id);
+        if (account.isPresent()) {
+            return account.get();
+        } else {
+            throw new RuntimeException("Nao existe conta para esse id");
+        }
     }
 }

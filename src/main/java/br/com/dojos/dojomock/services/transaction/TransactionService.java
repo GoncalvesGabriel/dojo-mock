@@ -2,7 +2,11 @@ package br.com.dojos.dojomock.services.transaction;
 
 import br.com.dojos.dojomock.dto.transaction.CreateTransactionDTO;
 import br.com.dojos.dojomock.dto.transaction.TransactionDTO;
+import br.com.dojos.dojomock.entity.Account;
+import br.com.dojos.dojomock.entity.Transaction;
 import br.com.dojos.dojomock.repository.TransactionRepository;
+import br.com.dojos.dojomock.services.account.AccountService;
+import java.time.LocalDateTime;
 
 /**
  * @author vitor.alves
@@ -11,12 +15,15 @@ public class TransactionService {
 
     private TransactionRepository transactionRepository;
 
-    public TransactionService(TransactionRepository transactionRepository) {
+    private AccountService accountService;
+
+    public TransactionService(TransactionRepository transactionRepository, AccountService accountService) {
         this.transactionRepository = transactionRepository;
+        this.accountService = accountService;
     }
 
     public TransactionDTO createTransaction(CreateTransactionDTO createTransactionDTO) {
-        TransactionDTO transactionDTO = new TransactionDTO();
-        return new TransactionDTO();
+        Transaction transaction = new Transaction(accountService.findById(createTransactionDTO.getAccountId()), createTransactionDTO.getOperationTypeEnum(), createTransactionDTO.getAmount(), LocalDateTime.now());
+        return new TransactionDTO(transaction);
     }
 }
