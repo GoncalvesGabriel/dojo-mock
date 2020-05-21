@@ -1,19 +1,17 @@
 package br.com.dojos.dojomock.services;
 
-import static javafx.scene.input.KeyCode.T;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.mockito.ArgumentMatchers.anyObject;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import br.com.dojos.dojomock.dto.account.AccountDTO;
 import br.com.dojos.dojomock.dto.account.CreateAccountDTO;
 import br.com.dojos.dojomock.entity.Account;
 import br.com.dojos.dojomock.repository.AccountRepository;
+import br.com.dojos.dojomock.services.account.AccountService;
+import br.com.dojos.dojomock.services.account.PreAccountValidator;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,12 +24,15 @@ public class AccountServiceTest {
 
     private AccountService service;
 
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
+
+    private Validator<CreateAccountDTO> accountValidator;
 
     @Before
     public void setUp() {
         accountRepository = Mockito.mock(AccountRepository.class);
-        service = new AccountService(accountRepository);
+        accountValidator = Mockito.mock(PreAccountValidator.class);
+        service = new AccountService(accountRepository, accountValidator);
     }
 
     @Test

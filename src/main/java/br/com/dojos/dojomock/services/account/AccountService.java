@@ -1,12 +1,10 @@
-package br.com.dojos.dojomock.services;
+package br.com.dojos.dojomock.services.account;
 
 import br.com.dojos.dojomock.dto.account.AccountDTO;
 import br.com.dojos.dojomock.dto.account.CreateAccountDTO;
 import br.com.dojos.dojomock.entity.Account;
 import br.com.dojos.dojomock.repository.AccountRepository;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import br.com.dojos.dojomock.services.Validator;
 
 /**
  * @author vitor.alves
@@ -15,22 +13,18 @@ public class AccountService {
 
     private AccountRepository accountRepository;
 
-    public AccountService(AccountRepository accountRepository) {
+    private Validator<CreateAccountDTO> accountValidator;
+
+    public AccountService(AccountRepository accountRepository,
+        Validator<CreateAccountDTO> accountValidator) {
         this.accountRepository = accountRepository;
+        this.accountValidator = accountValidator;
     }
 
     public AccountDTO createAccount(CreateAccountDTO createAccountDTO) {
-        validaDocumentNumberExistente(createAccountDTO);
+        this.accountValidator.validar(createAccountDTO);
         Account account = createAccountDTO.createAccount();
         accountRepository.save(account);
         return new AccountDTO(account);
-    }
-
-    public void validaDocumentNumberExistente(CreateAccountDTO createAccountDTO) {
-        Optional<Account> account = accountRepository.findByDocumentNumber(createAccountDTO.getDocumentNumber());
-
-        if(account.isPresent()){
-            throw new RuntimeException("Document Number already exist.");
-        }
     }
 }
