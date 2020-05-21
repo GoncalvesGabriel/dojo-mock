@@ -1,22 +1,21 @@
-package br.com.dojos.dojomock.services;
+package br.com.dojos.dojomock.services.account;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.inOrder;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import br.com.dojos.dojomock.dto.account.AccountDTO;
 import br.com.dojos.dojomock.dto.account.CreateAccountDTO;
 import br.com.dojos.dojomock.entity.Account;
 import br.com.dojos.dojomock.repository.AccountRepository;
-import br.com.dojos.dojomock.services.account.AccountService;
-import br.com.dojos.dojomock.services.account.PreAccountValidator;
-import java.util.Optional;
+import br.com.dojos.dojomock.services.Validator;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InOrder;
 import org.mockito.Mockito;
 
 
@@ -50,23 +49,22 @@ public class AccountServiceTest {
         assertThat(accountLeirbag.getDocumentNumber(), equalTo("12345"));
     }
 
-    @Test(expected = RuntimeException.class)
-    public void naoPermiteDuasContasMesmoDocumento() {
-
+    @Test
+    public void seDerErroDeValidacaoNaoSalvarEntidade() {
+        CreateAccountDTO createAccountDTO = new CreateAccountDTO();
+        doThrow(RuntimeException.class).when(accountValidator).validar(createAccountDTO);
+        verify(accountRepository, never()).save(any(Account.class));
     }
 
     @Test
-    public void validacaoAntesDoSave(){
+    public void validacaoAntesDoSave() {
         CreateAccountDTO createAccountDTO = new CreateAccountDTO();
         createAccountDTO.setDocumentNumber("12345");
         Account account = createAccountDTO.createAccount();
 
         service.createAccount(createAccountDTO);
 
-        InOrder inOrder = inOrder(accountRepository);
-        inOrder.verify(accountRepository).findByDocumentNumber(anyString());
-        inOrder.verify(accountRepository).save(account);
-
+        verify(accountRepository, times(1)).save(account);
     }
 
 }
