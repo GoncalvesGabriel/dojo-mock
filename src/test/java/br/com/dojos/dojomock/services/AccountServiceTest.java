@@ -52,10 +52,7 @@ public class AccountServiceTest {
 
     @Test(expected = RuntimeException.class)
     public void naoPermiteDuasContasMesmoDocumento() {
-        CreateAccountDTO createAccountDTO = new CreateAccountDTO();
-        createAccountDTO.setDocumentNumber("12345");
-        Mockito.when(accountRepository.findByDocumentNumber(anyString())).thenReturn(Optional.of(new Account()));
-        service.createAccount(createAccountDTO);
+
     }
 
     @Test
