@@ -48,4 +48,9 @@ public class AccountService {
         }
         return Optional.empty();
     }
+
+
+    public void deleteAccount(Long id) {
+        this.accountRepository.deleteById(id);
+    }
 }
