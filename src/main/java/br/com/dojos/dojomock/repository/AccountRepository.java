@@ -1,7 +1,6 @@
 package br.com.dojos.dojomock.repository;
 
 
-import br.com.dojos.dojomock.dto.account.CreateAccountDTO;
 import br.com.dojos.dojomock.entity.Account;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

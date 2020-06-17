@@ -31,23 +31,23 @@ public class PreAccountValidatorTest {
     private PreAccountValidator validator;
 
     @Before
-    public void setup(){
+    public void setup() {
         accountRepository = Mockito.mock(AccountRepository.class);
         validator = new PreAccountValidator(accountRepository);
     }
 
     @Test
-    public void validacaoComSucesso(){
+    public void validacaoComSucesso() {
         CreateAccountDTO createAccountDTO = new CreateAccountDTO();
         createAccountDTO.setDocumentNumber("1307");
         Mockito.when(accountRepository.findByDocumentNumber(anyString()))
             .thenReturn(Optional.empty());
         validator.validar(createAccountDTO);
-        verify(accountRepository,times(1)).findByDocumentNumber("1307");
+        verify(accountRepository, times(1)).findByDocumentNumber("1307");
     }
 
     @Test
-    public void validacaoComErro(){
+    public void validacaoComErro() {
         CreateAccountDTO createAccountDTO = new CreateAccountDTO();
         createAccountDTO.setDocumentNumber("1307");
         Mockito.when(accountRepository.findByDocumentNumber(anyString()))
