@@ -2,9 +2,7 @@ package br.com.dojos.dojomock.controller;
 
 import br.com.dojos.dojomock.dto.account.AccountDTO;
 import br.com.dojos.dojomock.dto.account.CreateAccountDTO;
-import br.com.dojos.dojomock.entity.Account;
 import br.com.dojos.dojomock.services.account.AccountService;
-import com.sun.jndi.toolkit.url.Uri;
 import java.net.URI;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
