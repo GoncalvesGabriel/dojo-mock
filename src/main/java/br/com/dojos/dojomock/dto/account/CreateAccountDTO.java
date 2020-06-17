@@ -2,10 +2,10 @@ package br.com.dojos.dojomock.dto.account;
 
 import br.com.dojos.dojomock.entity.Account;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
 @NoArgsConstructor
 public @Data class CreateAccountDTO {
 
@@ -15,5 +15,10 @@ public @Data class CreateAccountDTO {
     Account account = new Account();
     account.setDocumentNumber(this.getDocumentNumber());
     return account;
+  }
+
+  @Builder
+  public CreateAccountDTO(String documentNumber){
+    this.documentNumber = documentNumber;
   }
 }
