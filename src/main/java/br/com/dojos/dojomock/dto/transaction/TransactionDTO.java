@@ -1,7 +1,9 @@
 package br.com.dojos.dojomock.dto.transaction;
 
+import br.com.dojos.dojomock.dto.serializers.JsonEnumSerializer;
 import br.com.dojos.dojomock.entity.Transaction;
 import br.com.dojos.dojomock.entity.enux.OperationType;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +17,7 @@ class TransactionDTO {
 
   private Long accountId;
 
+  @JsonSerialize(using = JsonEnumSerializer.class)
   private OperationType operationType;
 
   private double amount;
