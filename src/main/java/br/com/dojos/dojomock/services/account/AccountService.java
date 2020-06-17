@@ -41,4 +41,11 @@ public class AccountService {
             throw new RuntimeException("Nao existe conta para esse id");
         }
     }
+    public Optional<AccountDTO> findDTOById(Long id) {
+        Optional<Account> account = accountRepository.findById(id);
+        if (account.isPresent()) {
+            return Optional.of(new AccountDTO(account.get()));
+        }
+        return Optional.empty();
+    }
 }

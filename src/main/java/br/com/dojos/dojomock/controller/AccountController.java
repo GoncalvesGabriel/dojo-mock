@@ -1,8 +1,16 @@
 package br.com.dojos.dojomock.controller;
 
+import br.com.dojos.dojomock.dto.account.AccountDTO;
 import br.com.dojos.dojomock.dto.account.CreateAccountDTO;
+import br.com.dojos.dojomock.entity.Account;
 import br.com.dojos.dojomock.services.account.AccountService;
+import com.sun.jndi.toolkit.url.Uri;
+import java.net.URI;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +31,15 @@ public class AccountController {
     }
 
     @PostMapping
-    public void creatAccount(@RequestBody CreateAccountDTO createAccountDTO) {
-        accountService.createAccount(createAccountDTO);
+    public ResponseEntity<AccountDTO> createAccount(@RequestBody CreateAccountDTO createAccountDTO) {
+        AccountDTO account = accountService.createAccount(createAccountDTO);
+        URI uri = URI.create(String.format("/accounts/%s",account.getId()));
+        return ResponseEntity.created(uri).body(account);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountDTO> findAccount(@PathVariable long id){
+        Optional<AccountDTO> optionalAccount = accountService.findDTOById(id);
+        return ResponseEntity.of(optionalAccount);
     }
 }
