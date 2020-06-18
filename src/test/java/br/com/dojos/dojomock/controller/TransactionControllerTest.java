@@ -60,7 +60,7 @@ public class TransactionControllerTest {
         Mockito.when(service.update(transactionDTO.getId(), createTransactionDTO)).thenReturn(transactionDTO);
 
         mockMvc.perform(MockMvcRequestBuilders
-            .put("/transactions/{id}", transactionDTO.getId())
+            .put("/transactions/" + transactionDTO.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(JsonTestHelper.asJsonString(createTransactionDTO)))
             .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -74,7 +74,7 @@ public class TransactionControllerTest {
         Mockito.when(service.update(transactionDTO.getId(), createTransactionDTO)).thenReturn(transactionDTO);
 
         mockMvc.perform(MockMvcRequestBuilders
-            .patch("/transactions/{id}", transactionDTO.getId())
+            .patch("/transactions/" + transactionDTO.getId())
             .contentType(MediaType.APPLICATION_JSON)
             .content(JsonTestHelper.asJsonString(createTransactionDTO)))
             .andExpect(MockMvcResultMatchers.status().isOk())
