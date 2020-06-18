@@ -54,4 +54,32 @@ public class TransactionControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.operationType").value(OperationType.COMPRA_A_VISTA.toString()));
     }
 
+    @Test
+    public void fullUpdate() throws Exception {
+        CreateTransactionDTO createTransactionDTO = CreateTransactionDTO.builder().amount(100L).operationType(1).build();
+        Mockito.when(service.update(transactionDTO.getId(), createTransactionDTO)).thenReturn(transactionDTO);
+
+        mockMvc.perform(MockMvcRequestBuilders
+            .put("/transactions/{id}", transactionDTO.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(JsonTestHelper.asJsonString(createTransactionDTO)))
+            .andExpect(MockMvcResultMatchers.status().isCreated())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value(transactionDTO.getAmount()))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.operationType").value(OperationType.COMPRA_A_VISTA.toString()));
+    }
+
+    @Test
+    public void update() throws Exception {
+        CreateTransactionDTO createTransactionDTO = CreateTransactionDTO.builder().amount(100L).operationType(1).build();
+        Mockito.when(service.update(transactionDTO.getId(), createTransactionDTO)).thenReturn(transactionDTO);
+
+        mockMvc.perform(MockMvcRequestBuilders
+            .patch("/transactions/{id}", transactionDTO.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(JsonTestHelper.asJsonString(createTransactionDTO)))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.amount").value(transactionDTO.getAmount()))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.operationType").value(OperationType.COMPRA_A_VISTA.toString()));
+    }
+
 }
